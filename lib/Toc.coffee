@@ -90,6 +90,7 @@ class Toc
       list = @__createList()
       if list isnt false
         Array.prototype.push.apply text, list
+      text.push "\n"
       text.push "<!-- /TOC -->"
       return text.join "\n"
     return ""
@@ -124,7 +125,7 @@ class Toc
     for own i, item of @list
       row = []
 
-      for tab in [1..item.depth] when tab > 1
+      for tab in [1..item.depth] when tab > 2
         row.push "\t"
       if @options.orderedList is 1
         row.push ++indicesOfDepth[item.depth-1] + ". "
@@ -189,7 +190,7 @@ class Toc
   ___createLink: (name) ->
     hash = new String name
     hash = hash.toLowerCase().replace /\s/g, "-"
-    hash = hash.replace /[^a-z0-9\-]/g, ""
+    hash = hash.replace /[^a-z0-9\u4e00-\u9fa5\-]/g, ""
     if hash.indexOf("--") > -1
       hash = hash.replace /(-)+/g, "-"
     if name.indexOf(":-") > -1
